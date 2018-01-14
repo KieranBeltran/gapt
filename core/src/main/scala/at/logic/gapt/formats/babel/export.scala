@@ -130,7 +130,7 @@ class BabelExporter( unicode: Boolean, sig: BabelSignature, omitTypes: Boolean =
       case Or( a, b ) if !bound( OrC.name ) =>
         showBin( if ( unicode ) "∨" else "|", prio.disj, 1, 0, a, b, true, bound, t0, p )
       case Imp( a, b ) if !bound( ImpC.name ) =>
-        showBin( if ( unicode ) "⊃" else "->", prio.impl, 0, 1, a, b, true, bound, t0, p )
+        showBin( if ( unicode ) "→" else "->", prio.impl, 0, 1, a, b, true, bound, t0, p )
 
       case Abs( v @ Var( vn, vt ), e ) =>
         val ( e_, t1 ) = show( e, knownType, bound + vn, t0 - vn, prio.lam + 1 )

@@ -66,8 +66,8 @@ object BabelParserCombinators {
     case ( expr, None )       => expr
   } )
 
-  val Impl = PE( Bicond.rep( 1, "->" | "⊃" ).map( _.reduceRight( preExpr.Imp ) ) )
-  val Bicond = PE( Disj.rep( 1, "<->" ).map {
+  val Impl = PE( Bicond.rep( 1, "->" | "→" | "⊃" ).map( _.reduceRight( preExpr.Imp ) ) )
+  val Bicond = PE( Disj.rep( 1, "<->" | "↔" ).map {
     case Seq( formula ) => formula
     case formulas       => ( formulas, formulas.tail ).zipped.map( preExpr.Bicond ).reduceLeft( preExpr.And )
   } )

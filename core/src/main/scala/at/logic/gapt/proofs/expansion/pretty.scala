@@ -46,7 +46,7 @@ class ExpansionTreePrettyPrinter( sig: BabelSignature ) extends BabelExporter( u
     case ETImp( a, b ) =>
       val ( a_, t1 ) = show( a, t0, prio.impl )
       val ( b_, t2 ) = show( b, t1, prio.impl )
-      parenIf( p, prio.impl, a_ <+> "⊃" </> b_ ) -> t2
+      parenIf( p, prio.impl, a_ <+> "→" </> b_ ) -> t2
     case ETStrongQuantifier( sh, ev, child ) =>
       val ( sh_, t1 ) = show( sh, true, Set(), t0, prio.conj )
       val ( ev_, t2 ) = show( ev, true, Set(), t1, prio.max )

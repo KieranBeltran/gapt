@@ -21,11 +21,11 @@ object lattice extends TacticsProof {
   ctx += hof"L1 = (∀x∀y (cap x y = x <-> cup x y = y))"
   ctx += hof"L2 = (∀x∀y cup (cap x y) x = x ∧ ∀x∀y cap (cup x y) x = x)"
   ctx += hof"R = (∀x x<=x)"
-  ctx += hof"AS = (∀x∀y (x<=y ∧ y<=x ⊃ x=y))"
-  ctx += hof"T = (∀x∀y∀z (x<=y ∧ y<=z ⊃ x<=z))"
+  ctx += hof"AS = (∀x∀y (x<=y ∧ y<=x → x=y))"
+  ctx += hof"T = (∀x∀y∀z (x<=y ∧ y<=z → x<=z))"
   ctx += hof"POSET = (R & (AS & T))"
-  ctx += hof"GLB = (∀x∀y (cap x y <= x ∧ cap x y <= y ∧ ∀z (z<=x ∧ z<=y ⊃ z <= cap x y)))"
-  ctx += hof"LUB = (∀x∀y (x <= cup x y ∧ y <= cup x y ∧ ∀z (x<=z ∧ y<=z ⊃ cup x y <= z)))"
+  ctx += hof"GLB = (∀x∀y (cap x y <= x ∧ cap x y <= y ∧ ∀z (z<=x ∧ z<=y → z <= cap x y)))"
+  ctx += hof"LUB = (∀x∀y (x <= cup x y ∧ y <= cup x y ∧ ∀z (x<=z ∧ y<=z → cup x y <= z)))"
   ctx += hof"L3 = (POSET ∧ (GLB ∧ LUB))"
 
   //
@@ -33,7 +33,7 @@ object lattice extends TacticsProof {
   //
 
   // show that join is _least_ upper bound for \leq
-  val p_6 = Lemma( hols"L1 :- ∀z (x_0 <= z ∧ y_0 <= z ⊃ cup x_0 y_0 <= z)" ) {
+  val p_6 = Lemma( hols"L1 :- ∀z (x_0 <= z ∧ y_0 <= z → cup x_0 y_0 <= z)" ) {
     unfold( "<=" ) in "g"
     allR( hov"z_0" )
     impR
@@ -80,7 +80,7 @@ object lattice extends TacticsProof {
   }
 
   //show that meet is _greatest_ lower bound for \leq
-  val p_4 = Lemma( hols":- ∀z (z <= x_0 ∧ z <= y_0 ⊃ z <= cap x_0 y_0)" ) {
+  val p_4 = Lemma( hols":- ∀z (z <= x_0 ∧ z <= y_0 → z <= cap x_0 y_0)" ) {
     unfold( "<=" ) in "g"
     decompose
     foTheory
@@ -150,7 +150,7 @@ object lattice extends TacticsProof {
 
   // absorption law 2 - difficult direction
   val r_2 = Lemma(
-    hols"""LUB, R, ∀z (z <= cup x_0 y_0 ∧ z <= x_0 ⊃ z <= cap (cup x_0 y_0) x_0) :-
+    hols"""LUB, R, ∀z (z <= cup x_0 y_0 ∧ z <= x_0 → z <= cap (cup x_0 y_0) x_0) :-
       x_0 <= cap (cup x_0 y_0) x_0""" ) {
       allL( "h_0", le"x_0" )
       impL
@@ -183,7 +183,7 @@ object lattice extends TacticsProof {
 
   // absorption law 1 - difficult direction
   val r_1 = Lemma( hols"""
-    GLB, R, ∀z (cap x_0 y_0 <= z ∧ x_0 <= z ⊃ cup (cap x_0 y_0) x_0 <= z) :-
+    GLB, R, ∀z (cap x_0 y_0 <= z ∧ x_0 <= z → cup (cap x_0 y_0) x_0 <= z) :-
     cup (cap x_0 y_0) x_0 <= x_0
     """ ) {
     chain( "h_0" )

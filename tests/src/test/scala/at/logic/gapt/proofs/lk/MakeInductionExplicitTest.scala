@@ -13,7 +13,7 @@ class MakeInductionExplicitTest extends Specification with SequentMatchers {
     explicit.subProofs.filter { _.isInstanceOf[InductionRule] } must_== Set()
     ctx.check( explicit )
     explicit.conclusion must beMultiSetEqual(
-      hof"∀X (X(0) ∧ ∀x (X(x) ⊃ X(s(x))) ⊃ ∀x X(x))" +:
+      hof"∀X (X(0) ∧ ∀x (X(x) → X(s(x))) → ∀x X(x))" +:
         pluscomm.conclusion )
   }
 
@@ -23,7 +23,7 @@ class MakeInductionExplicitTest extends Specification with SequentMatchers {
     explicit.subProofs.filter { _.isInstanceOf[InductionRule] } must_== Set()
     ctx.check( explicit )
     explicit.conclusion must beMultiSetEqual(
-      hof"∀X (X(nil) ∧ ∀x ∀xs (X(xs) ⊃ X(cons(x, xs))) ⊃ ∀x X(x)) " +:
+      hof"∀X (X(nil) ∧ ∀x ∀xs (X(xs) → X(cons(x, xs))) → ∀x X(x)) " +:
         mapfusion.conclusion )
   }
 
